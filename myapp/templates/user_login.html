@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block base %}
+    <div class="container">
+        <div class="col text-center mt-3 mb-3">
+            <h1>Login Your Account</h1>
+        </div>
+        <div class="row ">
+            <div class="offset-3 col-6">
+            <form method="post" novalidate="True" id='form'>
+              {% csrf_token %}
+                <div class="form-group">
+                    {% for forloop in messages %}
+                    <span class="text-danger">{{forloop}}</span>
+                    {% endfor %}
+                    
+                    <input type="email" class="form-control" name="email" placeholder="Enter your email" id="email">
+                    <span id="error1" class="text-danger"></span>
+                    <br>
+                    <input type="password" class="form-control" name="password" placeholder="Enter your password" id="password">
+                    <span id="error2" class="text-danger"></span>
+                    <br>
+                    <div class="d-block text-center">
+                        <button type="submit" class="btn btn-primary" href="{% url 'login_view' %}">Login</button>
+                        <p>Dont have account?<a href="{% url 'sign_up' %}"> Register Your account</a></p>
+                        <a href="{% url 'reset_password' %}">forgot password?</a> 
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'validation.js' %}"></script>
+{% endblock %}

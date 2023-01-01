@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block base %}
+<div class="col-md-8 ml-auto mr-auto">
+    <h1 class="col-4 ml-auto mr-auto">WRITE BLOG</h1>
+<form method="post" enctype="multipart/form-data" id="upload-form">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group col-12">
+        <label for="inputEmail4"><b>Blog Heading</b></label>
+        <input type="text" class="form-control" name="blog_heading" id="blogheading" placeholder="blog heading">
+        <span class="text-danger" id="heading_error"></span>
+      </div>
+    </div>
+    <div class="form-group">
+    <label for="inputAddress"><b>Blog Image</b></label>
+    <input type="file" name="blog_pic"  id="blogpic"><span class="text-danger" id="pic_error"></span>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2"><b>Blog</b></label>
+      <span class="text-danger" id="blog_error"></span>
+      <textarea type="text" name="blog_content"  class="form-control" id="blog" placeholder="Write your blog here..." rows='11' cols='10'></textarea>
+    </div>
+    <button type='submit' class="btn btn-primary">Upload</button>
+  </form>
+</div>
+
+{% endblock %}

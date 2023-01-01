@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block base %}
+{% if search_result %}
+<div>
+    <h2 class="col-4 mr-auto ml-auto text-center">Search_results</h2>
+</div>
+<div class="card-group">
+{% for result in search_result %}
+<div class="col-md-3 ">
+    <div class="card mt-4" >
+       <div class="card-header">{{result.profile.name}}</div>
+       <img class="card-img-top" src="{{result.image.url}}" alt="Card image cap" width="259" height="180">
+       
+       <div class="card-body">
+         <h5 class="card-title">{{result.blog_heading}}</h5>
+         <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+         <p class="card-text"><small class="text-muted">Uploaded_on {{result.uploaded_on}}</small></p>
+       </div>
+     </div>
+   </div>
+   
+    
+
+{% endfor %}
+</div>
+{% else %}
+<div>
+  <h2 class="col-4 mr-auto ml-auto text-center">No result found</h2>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block base %}
+{% load static %}
+<div class="card-group">
+
+{% for x in data %}
+<div class="col-md-3 ">
+ <div class="card mt-5" >
+    <div class="card-header"><a href="{% url 'profile' x.user.id %}" >{{x.profile.name}}</a></div>
+    <a href="{% url 'show_blog' x.blog_id %}">
+    <img class="card-img-top" src="{{x.image.url}}" alt="Card image cap" width="259" height="180">
+    </a>
+    
+    <div class="card-body bg-white">
+      <h5 class="card-title">{{x.blog_heading | safe |truncatechars:50}}</h5>
+      <p class="card-text">{{x.blog_content | safe |truncatechars:70}}<a href="{% url 'show_blog' x.blog_id %}">Read more</a></p>
+      <p class="card-text"><small class="text-muted">Uploaded_on {{x.uploaded_on}}</small></p>
+      <form method='post' action="{% url 'like' x.blog_id %}" class="like-form" id="{{x.blog_id}}">
+        {% csrf_token %}
+        <button type='submit' class=" border-0 bg-white like-btn{{x.blog_id}}" >
+          {% if request.user not in x.likes.all %}
+          <img src="{% static 'images/light.jpeg' %}" width="25px" height="25px">
+          {% else %}
+          <img src="{% static 'images/red.jpeg' %}" width="25px" height="25px">
+            {% endif %}
+           </button><span class="likes_count">{{x.likes.count}}</span>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $('.like-form').submit(function(e){
+      e.preventDefault()
+      const post_id = $(this).attr('id')
+      var like_count = $(this).contents()
+      var new_like_count = parseInt(like_count[4].innerText)
+      const liketext = document.getElementsByClassName(`like-btn${post_id}`)
+
+      let newLikeText = liketext[0].innerHTML.trim()
+      const url = $(this).attr('action')
+      $.ajax(
+        {
+          type:'POST',
+          url :url,
+          data:{
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            'post_id' : post_id,
+
+          },
+          success: function(response){
+            console.log('success')
+            console.log(newLikeText)
+            if (newLikeText === '<img src="/static/images/red.jpeg" width="25px" height="25px">'){
+              console.log('ues')
+              liketext[0].innerHTML='<img src="/static/images/light.jpeg" width="25px" height="25px">'
+              like_count[4].innerText = new_like_count-1
+            }else if(newLikeText === '<img src="/static/images/light.jpeg" width="25px" height="25px">'){
+              liketext[0].innerHTML='<img src="/static/images/red.jpeg" width="25px" height="25px">'
+              like_count[4].innerText = new_like_count+1
+            }
+
+          },
+          error :function(response){
+            console.log('error',response)
+          }
+        }
+      )
+    })
+  }
+  );
+</script>
+
+{% endblock %}

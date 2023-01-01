@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block base %}
+<form method="post" enctype="multipart/form-data" action="{% url 'change_photo' %}" id="change-photo">
+    {% csrf_token %}
+    <input type="file" name="photo_user" id="change-pic"><span id="upload-error" class="text-danger"></span>
+    <button type="submit">Upload</button>
+</form>
+{% endblock %}
+{% block script %}
+<script src="{% static 'photovalidations.js' %}"></script>
+{% endblock %}

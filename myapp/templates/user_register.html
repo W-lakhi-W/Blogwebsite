@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block base %}
+    <div class="container">
+        <div class="container">
+            <h1 class="text-center mt-3">Registeration Page</h1>
+        </div><br>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <form method="post" id='register-form'>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {% for forloop in messages %}
+                                <span class="text-danger">{{forloop}}</span>
+                            {% endfor %}
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name">
+                        <span id='first_name_error' class="text-danger"></span><br>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+                        <span id='last_name_error'class="text-danger"></span><br>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                        <span id='username_error'class="text-danger"></span><br>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                        <span id='email_error'class="text-danger"></span><br>
+                        <input type="password" class="form-control" id="password1" name="password1" placeholder="Enter your Password">
+                        <span id='password1_error'class="text-danger"></span><br>
+                        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm your Password">
+                        <span id='password2_error'class="text-danger"></span><br>
+                        <div class="row">
+                            <button type='reset' class="btn btn-danger ml-3">Reset</button>
+                            <input type="submit" class="btn btn-primary ml-3">
+                            <a href="{% url 'login_view' %}" class="my-auto ml-2">Login your account?</a>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script src="{% static 'registervalidations.js' %}"></script>
+{% endblock %}
+  
